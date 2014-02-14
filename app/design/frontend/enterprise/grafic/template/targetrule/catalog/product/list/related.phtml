@@ -1,0 +1,84 @@
+<?php
+/**
+ * Magento Enterprise Edition
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Magento Enterprise Edition License
+ * that is bundled with this package in the file LICENSE_EE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://www.magentocommerce.com/license/enterprise-edition
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     enterprise_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://www.magentocommerce.com/license/enterprise-edition
+ */
+/* @var $this Enterprise_TargetRule_Block_Catalog_Product_List_Related */
+
+//  template copied from /catalog/product/list.phtml
+$_helper = $this->helper('catalog/output');
+if (count($this->getItemCollection())):?>
+<ul id="related-items">
+    <?php foreach ($this->getItemCollection() as $_product): ?>
+    <li class="item">
+        <a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" class="product-image"><img src="<?php echo $this->helper('catalog/image')->init($_product, 'small_image')->resize(200); ?>" width="200" height="200" alt="<?php echo $this->stripTags($this->getImageLabel($_product, 'small_image'), null, true) ?>" /></a>
+
+        <div class="item-info">
+
+            <?php if ($brand = $_product->getAttributeText('designer')): ?>
+            <h3 class="product-brand"><?php echo $brand ?></h3>
+            <?php endif; ?>
+
+            <h3 class="product-name"><a href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($_product->getName(), null, true) ?>"><?php echo $_helper->productAttribute($_product, $_product->getName(), 'name') ?></a></h3>
+
+            <?php echo $this->getPriceHtml($_product, true) ?>
+
+            <?php if ($_product->isSaleable()): ?>
+            <?php echo $this->setupForm($_product)->toHtml(); ?>
+            <?php endif; ?>
+        </div>
+    </li>
+    <?php endforeach; ?>
+    <script type="text/javascript">
+        var Demac = Demac || {};
+
+        Demac.relatedProductSubmit = function(e){
+            e.preventDefault();
+            form = jQuery(this); // need closure to access form in callback
+            form.addClass('waiting');
+            form.find(':submit').attr('disabled', 'disabled');
+            var ajaxParams = {
+                type: 'post',
+                url: jQuery(this).attr('action'),
+                data: jQuery(this).serialize(),
+                success: function(data, textStatus, jqXHR){
+                    form.removeClass('waiting');
+                    form.find(':submit').removeAttr('disabled');
+                    if (data.indexOf('<li class="error-msg">') != -1) {
+                        form.append('<p class="error"><?php echo $this->__('could not add product to cart') ?></p>');
+                    } else {
+                        form.append('<p class=""><?php echo $this->__('product added to cart') ?></p>');
+                        // update shopping cart
+                        jQuery('strong#cartHeader').html(jQuery('strong#cartHeader', jQuery(data)).html());
+                        jQuery('div#topCartContent').html(jQuery('div#topCartContent', jQuery(data)).html());
+                        jQuery('strong#cartHeader').click();
+                    }
+                }
+            };
+            jQuery.ajax(ajaxParams);
+        };
+
+        jQuery('form.related-product').submit(Demac.relatedProductSubmit);
+    </script>
+</ul>
+<?php endif; ?>

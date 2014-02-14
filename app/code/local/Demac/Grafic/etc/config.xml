@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+
+<config>
+    <modules>
+        <Demac_Grafic>
+            <version>0.1.0</version>
+        </Demac_Grafic>
+    </modules>
+
+    <global>
+
+        <blocks>
+            <Demac_Grafic>
+                <class>Demac_Grafic_Block</class>
+            </Demac_Grafic>
+            <enterprise_targetrule>
+                <rewrite>
+                    <catalog_product_list_related>Demac_Grafic_Block_Catalog_Product_List_Related</catalog_product_list_related>
+                </rewrite>
+            </enterprise_targetrule>
+            <catalog>
+                <rewrite>
+                    <product_list>Demac_Grafic_Block_Catalog_Product_List</product_list>
+                </rewrite>
+            </catalog>
+        </blocks>
+
+        <events>
+            <catalog_block_product_list_collection>
+                <observers>
+                    <Demac_Grafic_catalog_block_product_list_observer>
+                        <class>Demac_Grafic_Model_Observer</class>
+                        <method>adjustCollection</method>
+                    </Demac_Grafic_catalog_block_product_list_observer>
+                </observers>
+            </catalog_block_product_list_collection>
+        </events>
+    </global>
+</config>
