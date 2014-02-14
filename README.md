@@ -5,8 +5,8 @@ Relevent files:
 [Related.php](app/code/local/Demac/Grafic/Block/Catalog/Product/List/Related.php)
 [related.phtml](app/design/frontend/enterprise/grafic/template/targetrule/catalog/product/list/related.phtml)
 
-Another interesting thing was that the original design called for two less products to be displayed on the home page compared to other pages. One solution is to adjust the product collection in an observer, and you can see this code here: app/code/local/Demac/Grafic/Model/Observer.php
+Another interesting thing was that the original design called for two less products to be displayed on the home page compared to other pages. One solution is to adjust the product collection in an observer, and you can see this code here: [Observer.php](app/code/local/Demac/Grafic/Model/Observer.php)
 
-We ended up switching to a responsive design so this code turned out to be unneccesary. It did inspire a couple of blog posts, if you're interested please see
-http://www.demacmedia.com/magento-commerce/pagination-tricks-in-magento-part-1/
+We ended up switching to a responsive design so this code turned out to be unneccesary. It did inspire a couple of blog posts, if you're interested please see  
+http://www.demacmedia.com/magento-commerce/pagination-tricks-in-magento-part-1/  
 http://www.demacmedia.com/magento-commerce/pagination-tricks-in-magento-part-2/
